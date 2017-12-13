@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.google.monitoring</groupId>
+    <artifactId>monitoring</artifactId>
+    <version>1.0</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>contrib</artifactId>
+  <name>Metrics Test Subjects</name>
+  <description>Test subjects for various metric objects.</description>
+
+  <packaging>jar</packaging>
+
+  <dependencies>
+    <!-- Compile dependencies -->
+    <!-- https://mvnrepository.com/artifact/com.google.truth/truth -->
+    <dependency>
+      <groupId>com.google.truth</groupId>
+      <artifactId>truth</artifactId>
+      <version>0.36</version>
+    </dependency>
+    <!-- Metrics library -->
+    <dependency>
+      <groupId>com.google.monitoring</groupId>
+      <artifactId>metrics</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <!-- https://mvnrepository.com/artifact/com.google.truth.extensions/truth-java8-extension -->
+    <dependency>
+      <groupId>com.google.truth.extensions</groupId>
+      <artifactId>truth-java8-extension</artifactId>
+      <version>0.36</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- JUnit backport -->
+    <dependency>
+      <groupId>com.google.monitoring</groupId>
+      <artifactId>junit</artifactId>
+      <version>1.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
