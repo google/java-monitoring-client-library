@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.google.monitoring</groupId>
+    <groupId>com.google.monitoring-client</groupId>
     <artifactId>monitoring</artifactId>
     <version>1.0</version>
     <relativePath>..</relativePath>
@@ -83,7 +83,7 @@
     </dependency>
     <!-- JUnit backport -->
     <dependency>
-      <groupId>com.google.monitoring</groupId>
+      <groupId>com.google.monitoring-client</groupId>
       <artifactId>junit</artifactId>
       <version>1.0</version>
       <scope>test</scope>
