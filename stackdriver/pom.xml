@@ -34,7 +34,7 @@
     </dependency>
     <!-- Metrics library -->
     <dependency>
-      <groupId>com.google.monitoring</groupId>
+      <groupId>com.google.monitoring-client</groupId>
       <artifactId>metrics</artifactId>
       <version>1.0</version>
     </dependency>
