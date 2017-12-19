@@ -1,5 +1,8 @@
 # Monitoring Client Library for Java
 
+[![Build
+Status](https://travis-ci.org/google/java-monitoring-client-library.svg?branch=master)](https://travis-ci.org/google/java-monitoring-client-library)
+
 This is not an official Google product.
 
 This library provides an API that is powerful and java idiomatic for configuring
