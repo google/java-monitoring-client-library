@@ -23,7 +23,7 @@ import com.google.monitoring.metrics.MetricPoint;
 import javax.annotation.Nullable;
 
 /**
- * Truth subject for the {@link Metric<Long>} class.
+ * Truth subject for {@link Long} {@link Metric} instances.
  *
  * <p>For use with the Google <a href="https://google.github.io/truth/">Truth</a> framework. Usage:
  *
@@ -44,11 +44,7 @@ import javax.annotation.Nullable;
  */
 public final class LongMetricSubject extends AbstractMetricSubject<Long, LongMetricSubject> {
 
-  /**
-   * Static assertThat({@link Metric<Long>}) shortcut method.
-   *
-   * @see Subject.Factory for assertions about {@link Metric<Long>} objects.
-   */
+  /**  Static shortcut method for {@link Long} metrics. */
   public static LongMetricSubject assertThat(@Nullable Metric<Long> metric) {
     return assertAbout(LongMetricSubject::new).that(metric);
   }

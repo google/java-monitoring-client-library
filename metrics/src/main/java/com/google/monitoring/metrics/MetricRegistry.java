@@ -40,7 +40,7 @@ public interface MetricRegistry {
    * @param metricCallback {@link Supplier} to compute the on-demand values of the metric. The
    *     function should be lightweight to compute and must be thread-safe. The map keys, which are
    *     lists of strings, must match in quantity and order with the provided labels.
-   * @param valueClass type hint to allow for compile-time encoding. Must match <V>.
+   * @param valueClass type hint to allow for compile-time encoding. Must match {@code V}.
    * @param <V> value type of the metric. Must be one of {@link Boolean}, {@link Double}, {@link
    *     Long}, or {@link String}.
    * @throws IllegalStateException if a metric of the same name is already registered.
@@ -68,7 +68,7 @@ public interface MetricRegistry {
    * @param valueDisplayName human readable description of the metric's value type.
    * @param labels list of the metric's labels. The labels (if there are any) must be of type
    *     STRING.
-   * @param valueClass type hint to allow for compile-time encoding. Must match <V>.
+   * @param valueClass type hint to allow for compile-time encoding. Must match {@code V}.
    * @param <V> value type of the metric. Must be one of {@link Boolean}, {@link Double}, {@link
    *     Long}, or {@link String}.
    * @throws IllegalStateException if a metric of the same name is already registered.
