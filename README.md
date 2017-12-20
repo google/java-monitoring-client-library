@@ -10,8 +10,8 @@ and publishing application metrics. A reference implementation using
 [Stackdriver Monitoring API v3](https://cloud.google.com/monitoring/api/v3/) is
 included, but other monitoring backend implementations can also be used.
 
-Most of the monitoring libraries available are low-level and is tied directly to
-the backend. This library provides type safety, retry logic and an
+Most of other monitoring libraries available are low-level and are tied directly
+to the backend. This library provides type safety, retry logic and an
 backend-agnostic approach to Java metrics instrumentation.
 
 ## Basic concepts
