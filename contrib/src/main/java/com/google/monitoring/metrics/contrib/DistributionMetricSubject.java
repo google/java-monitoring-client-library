@@ -31,7 +31,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
- * Truth subject for the {@link Metric<Distribution>} class.
+ * Truth subject for {@link Distribution} {@link Metric} instances.
  *
  * <p>For use with the Google <a href="https://google.github.io/truth/">Truth</a> framework. Usage:
  *
@@ -53,8 +53,7 @@ import javax.annotation.Nullable;
 public final class DistributionMetricSubject
     extends AbstractMetricSubject<Distribution, DistributionMetricSubject> {
 
-  /** {@link Subject.Factory} for assertions about {@link Metric<Distribution>} objects. */
-  /** Static assertThat({@link Metric<Distribution>}) shortcut method. */
+  /** Static shortcut method for {@link Distribution} {@link Metric} objects. */
   public static DistributionMetricSubject assertThat(@Nullable Metric<Distribution> metric) {
     return assertAbout(DistributionMetricSubject::new).that(metric);
   }
