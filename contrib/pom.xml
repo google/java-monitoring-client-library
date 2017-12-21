@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.google.monitoring-client</groupId>
     <artifactId>monitoring</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -24,13 +24,13 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>0.36</version>
+      <version>0.37</version>
     </dependency>
     <!-- Metrics library -->
     <dependency>
       <groupId>com.google.monitoring-client</groupId>
       <artifactId>metrics</artifactId>
-      <version>1.0</version>
+      <version>1.0.1-SNAPSHOT</version>
     </dependency>
 
     <!-- Test dependencies -->
@@ -38,14 +38,14 @@
     <dependency>
       <groupId>com.google.truth.extensions</groupId>
       <artifactId>truth-java8-extension</artifactId>
-      <version>0.36</version>
+      <version>0.37</version>
       <scope>test</scope>
     </dependency>
     <!-- JUnit backport -->
     <dependency>
       <groupId>com.google.monitoring-client</groupId>
       <artifactId>junit</artifactId>
-      <version>1.0</version>
+      <version>1.0.1-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
