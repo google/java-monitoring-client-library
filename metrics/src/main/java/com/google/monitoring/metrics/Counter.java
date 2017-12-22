@@ -31,13 +31,12 @@ import java.util.concurrent.locks.Lock;
 import java.time.Instant;
 import javax.annotation.concurrent.ThreadSafe;
 
-
 /**
  * A metric which stores Long values. It is stateful and can be changed in increments.
  *
  * <p>This metric is generally suitable for counters, such as requests served or errors generated.
  *
- * <p>The start of the {@link MetricPoint#duration()} of values of instances of this metric will be
+ * <p>The start of the {@link MetricPoint#interval()} of values of instances of this metric will be
  * set to the time that the metric was first set or last {@link #reset()}.
  */
 @ThreadSafe
@@ -54,7 +53,7 @@ public final class Counter extends AbstractMetric<Long>
 
   /**
    * A map of the {@link Instant} that each value was created, with a list of label values as the
-   * keys. The start timestamp (as part of the {@link MetricPoint#duration()} can be used by
+   * keys. The start timestamp (as part of the {@link MetricPoint#interval()} can be used by
    * implementations of {@link MetricWriter} to encode resets of monotonic counters.
    */
   private final ConcurrentHashMap<ImmutableList<String>, Instant> valueStartTimestamps =

@@ -380,7 +380,7 @@ public class StackdriverWriter implements MetricWriter {
 
     Point encodedPoint =
         new Point()
-            .setInterval(encodeTimeInterval(point.duration(), metric.getMetricSchema().kind()))
+            .setInterval(encodeTimeInterval(point.interval(), metric.getMetricSchema().kind()))
             .setValue(encodedValue);
 
     List<LabelDescriptor> encodedLabels = descriptor.getLabels();

@@ -66,7 +66,7 @@ public abstract class MetricPoint<V> implements Comparable<MetricPoint<V>> {
 
   public abstract ImmutableList<String> labelValues();
 
-  public abstract Range<Instant> duration();
+  public abstract Range<Instant> interval();
 
   public abstract V value();
 
