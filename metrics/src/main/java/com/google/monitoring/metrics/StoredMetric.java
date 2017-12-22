@@ -21,8 +21,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.MetricSchema.Kind;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.time.Instant;
 import javax.annotation.concurrent.ThreadSafe;
-import org.joda.time.Instant;
+
 
 /**
  * A metric which is stateful.
@@ -32,7 +33,7 @@ import org.joda.time.Instant;
  *
  * <p>See {@link Counter} for a subclass which is suitable for stateful incremental values.
  *
- * <p>The {@link MetricPoint#interval()} of values of instances of this metric will always have a
+ * <p>The {@link MetricPoint#duration()} of values of instances of this metric will always have a
  * start time equal to the end time, since the metric value represents a point-in-time snapshot with
  * no relationship to prior values.
  */

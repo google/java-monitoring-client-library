@@ -39,6 +39,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Range;
 import com.google.common.util.concurrent.RateLimiter;
 import com.google.monitoring.metrics.CustomFitter;
 import com.google.monitoring.metrics.DistributionFitter;
@@ -50,6 +51,7 @@ import com.google.monitoring.metrics.MetricRegistryImpl;
 import com.google.monitoring.metrics.MetricSchema.Kind;
 import com.google.monitoring.metrics.MetricWriter;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,10 +59,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
 import javax.annotation.concurrent.NotThreadSafe;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+
 
 /**
  * Metrics writer for Google Cloud Monitoring V3
@@ -70,7 +69,7 @@ import org.joda.time.format.ISODateTimeFormat;
  * until {@link #flush()} is called.
  *
  * @see <a href="https://cloud.google.com/monitoring/api/v3/">Introduction to the Stackdriver
- *     Monitoring API</a>
+ * Monitoring API</a>
  */
 // TODO(shikhman): add retry logic
 @NotThreadSafe
@@ -92,7 +91,6 @@ public class StackdriverWriter implements MetricWriter {
                       "valueType", "Metric Value Type")));
   private static final String METRIC_DOMAIN = "custom.googleapis.com";
   private static final String LABEL_VALUE_TYPE = "STRING";
-  private static final DateTimeFormatter DATETIME_FORMATTER = ISODateTimeFormat.dateTime();
   private static final Logger logger = Logger.getLogger(StackdriverWriter.class.getName());
   // A map of native type to the equivalent Stackdriver metric type.
   private static final ImmutableMap<Class<?>, String> ENCODED_METRIC_TYPES =
@@ -180,7 +178,9 @@ public class StackdriverWriter implements MetricWriter {
         .setMetricKind(ENCODED_METRIC_KINDS.get(metric.getMetricSchema().kind().name()));
   }
 
-  /** Encodes and writes a metric point to Stackdriver. The point may be buffered. */
+  /**
+   * Encodes and writes a metric point to Stackdriver. The point may be buffered.
+   */
   @Override
   public <V> void write(com.google.monitoring.metrics.MetricPoint<V> point)
       throws IOException {
@@ -195,7 +195,9 @@ public class StackdriverWriter implements MetricWriter {
     }
   }
 
-  /** Flushes all buffered metric points to Stackdriver. This call is blocking. */
+  /**
+   * Flushes all buffered metric points to Stackdriver. This call is blocking.
+   */
   @Override
   public void flush() throws IOException {
     checkState(timeSeriesBuffer.size() <= 200, FLUSH_OVERFLOW_ERROR);
@@ -224,7 +226,8 @@ public class StackdriverWriter implements MetricWriter {
    * Registers a metric's {@link MetricDescriptor} with the Monitoring API.
    *
    * @param metric the metric to be registered.
-   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors">Stackdriver MetricDescriptor API</a>
+   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors">Stackdriver
+   * MetricDescriptor API</a>
    */
   @VisibleForTesting
   MetricDescriptor registerMetric(final com.google.monitoring.metrics.Metric<?> metric)
@@ -270,17 +273,17 @@ public class StackdriverWriter implements MetricWriter {
     return descriptor;
   }
 
-  private static TimeInterval encodeTimeInterval(Interval nativeInterval, Kind metricKind) {
+  private static TimeInterval encodeTimeInterval(Range<Instant> nativeInterval, Kind metricKind) {
 
     TimeInterval encodedInterval =
-        new TimeInterval().setStartTime(DATETIME_FORMATTER.print(nativeInterval.getStart()));
+        new TimeInterval().setStartTime(nativeInterval.lowerEndpoint().toString());
 
-    DateTime endTimestamp =
-        nativeInterval.toDurationMillis() == 0 && metricKind != Kind.GAUGE
-            ? nativeInterval.getEnd().plusMillis(1)
-            : nativeInterval.getEnd();
+    Instant endTimestamp =
+        nativeInterval.isEmpty() && metricKind != Kind.GAUGE
+            ? nativeInterval.upperEndpoint().plusMillis(1)
+            : nativeInterval.upperEndpoint();
 
-    return encodedInterval.setEndTime(DATETIME_FORMATTER.print(endTimestamp));
+    return encodedInterval.setEndTime(endTimestamp.toString());
   }
 
   private static BucketOptions encodeBucketOptions(DistributionFitter fitter) {
@@ -329,11 +332,11 @@ public class StackdriverWriter implements MetricWriter {
   /**
    * Encodes a {@link MetricPoint} into a Stackdriver {@link TimeSeries}.
    *
-   * <p>This method will register the underlying {@link com.google.monitoring.metrics.Metric}
-   * as a Stackdriver {@link MetricDescriptor}.
+   * <p>This method will register the underlying {@link com.google.monitoring.metrics.Metric} as a
+   * Stackdriver {@link MetricDescriptor}.
    *
-   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/TimeSeries">
-   * Stackdriver TimeSeries API</a>
+   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/TimeSeries"> Stackdriver
+   * TimeSeries API</a>
    */
   @VisibleForTesting
   <V> TimeSeries getEncodedTimeSeries(com.google.monitoring.metrics.MetricPoint<V> point)
@@ -377,7 +380,7 @@ public class StackdriverWriter implements MetricWriter {
 
     Point encodedPoint =
         new Point()
-            .setInterval(encodeTimeInterval(point.interval(), metric.getMetricSchema().kind()))
+            .setInterval(encodeTimeInterval(point.duration(), metric.getMetricSchema().kind()))
             .setValue(encodedValue);
 
     List<LabelDescriptor> encodedLabels = descriptor.getLabels();

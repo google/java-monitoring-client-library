@@ -21,8 +21,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.MetricSchema.Kind;
 import java.util.Map.Entry;
+import java.time.Instant;
 import javax.annotation.concurrent.ThreadSafe;
-import org.joda.time.Instant;
+
 
 /**
  * A metric whose value is computed at sample-time.
@@ -30,7 +31,7 @@ import org.joda.time.Instant;
  * <p>This pattern works well for gauge-like metrics, such as CPU usage, memory usage, and file
  * descriptor counts.
  *
- * <p>The {@link MetricPoint#interval()} of values of instances of this metric will always have a
+ * <p>The {@link MetricPoint#duration()} of values of instances of this metric will always have a
  * start time equal to the end time, since the metric value represents a point-in-time snapshot with
  * no relationship to prior values.
  */

@@ -20,12 +20,14 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import org.joda.time.Instant;
+import java.time.Instant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Unit tests for {@link VirtualMetric}. */
+/**
+ * Unit tests for {@link VirtualMetric}.
+ */
 @RunWith(JUnit4.class)
 public class VirtualMetricTest {
 
@@ -54,11 +56,11 @@ public class VirtualMetricTest {
 
   @Test
   public void testGetTimestampedValues_returnsValues() {
-    assertThat(metric.getTimestampedValues(new Instant(1337)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1337)))
         .containsExactly(
             MetricPoint.create(
-                metric, ImmutableList.of("label_value1"), new Instant(1337), "value1"),
+                metric, ImmutableList.of("label_value1"), Instant.ofEpochMilli(1337), "value1"),
             MetricPoint.create(
-                metric, ImmutableList.of("label_value2"), new Instant(1337), "value2"));
+                metric, ImmutableList.of("label_value2"), Instant.ofEpochMilli(1337), "value2"));
   }
 }

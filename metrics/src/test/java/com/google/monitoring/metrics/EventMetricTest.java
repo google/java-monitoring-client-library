@@ -21,18 +21,21 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableRangeMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Range;
-import org.joda.time.Instant;
+import java.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** Unit tests for {@link EventMetric}. */
+/**
+ * Unit tests for {@link EventMetric}.
+ */
 @RunWith(JUnit4.class)
 public class EventMetricTest {
 
   private final DistributionFitter distributionFitter = CustomFitter.create(ImmutableSet.of(5.0));
   private EventMetric metric;
+
   @Before
   public void setUp() {
     metric =
@@ -75,15 +78,15 @@ public class EventMetricTest {
   public void testRecord_updatesDistribution() {
     assertThat(metric.getTimestampedValues()).isEmpty();
 
-    metric.recordMultiple(1.0, 1, new Instant(1337), ImmutableList.of("test_value1"));
+    metric.recordMultiple(1.0, 1, Instant.ofEpochMilli(1337), ImmutableList.of("test_value1"));
 
-    assertThat(metric.getTimestampedValues(new Instant(1338)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("test_value1"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     1.0,
                     0.0,
@@ -96,13 +99,13 @@ public class EventMetricTest {
 
     metric.record(10.0, "test_value1");
 
-    assertThat(metric.getTimestampedValues(new Instant(1338)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("test_value1"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     5.5,
                     40.5,
@@ -118,15 +121,15 @@ public class EventMetricTest {
   public void testRecord_multipleValues_updatesDistributions() {
     assertThat(metric.getTimestampedValues()).isEmpty();
 
-    metric.recordMultiple(1.0, 3, new Instant(1337), ImmutableList.of("test_value1"));
+    metric.recordMultiple(1.0, 3, Instant.ofEpochMilli(1337), ImmutableList.of("test_value1"));
 
-    assertThat(metric.getTimestampedValues(new Instant(1338)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("test_value1"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     1.0,
                     0,
@@ -137,16 +140,16 @@ public class EventMetricTest {
                         .build(),
                     distributionFitter)));
 
-    metric.recordMultiple(2.0, 5, new Instant(1337), ImmutableList.of("test_value1"));
-    metric.recordMultiple(7.0, 10, new Instant(1337), ImmutableList.of("test_value2"));
+    metric.recordMultiple(2.0, 5, Instant.ofEpochMilli(1337), ImmutableList.of("test_value1"));
+    metric.recordMultiple(7.0, 10, Instant.ofEpochMilli(1337), ImmutableList.of("test_value2"));
 
-    assertThat(metric.getTimestampedValues(new Instant(1338)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("test_value1"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     1.625,
                     1.875,
@@ -159,8 +162,8 @@ public class EventMetricTest {
             MetricPoint.create(
                 metric,
                 ImmutableList.of("test_value2"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     7.0,
                     0,
@@ -174,16 +177,16 @@ public class EventMetricTest {
 
   @Test
   public void testResetAll_resetsAllValuesAndStartTimestamps() {
-    metric.recordMultiple(3.0, 1, new Instant(1336), ImmutableList.of("foo"));
-    metric.recordMultiple(5.0, 1, new Instant(1337), ImmutableList.of("moo"));
+    metric.recordMultiple(3.0, 1, Instant.ofEpochMilli(1336), ImmutableList.of("foo"));
+    metric.recordMultiple(5.0, 1, Instant.ofEpochMilli(1337), ImmutableList.of("moo"));
 
-    assertThat(metric.getTimestampedValues(new Instant(1338)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("foo"),
-                new Instant(1336),
-                new Instant(1338),
+                Instant.ofEpochMilli(1336),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     3.0,
                     0.0,
@@ -196,8 +199,8 @@ public class EventMetricTest {
             MetricPoint.create(
                 metric,
                 ImmutableList.of("moo"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     5.0,
                     0,
@@ -208,15 +211,15 @@ public class EventMetricTest {
                         .build(),
                     distributionFitter)));
 
-    metric.reset(new Instant(1339));
+    metric.reset(Instant.ofEpochMilli(1339));
 
-    assertThat(metric.getTimestampedValues(new Instant(1340)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1340)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("foo"),
-                new Instant(1339),
-                new Instant(1340),
+                Instant.ofEpochMilli(1339),
+                Instant.ofEpochMilli(1340),
                 ImmutableDistribution.create(
                     0.0,
                     0.0,
@@ -229,8 +232,8 @@ public class EventMetricTest {
             MetricPoint.create(
                 metric,
                 ImmutableList.of("moo"),
-                new Instant(1339),
-                new Instant(1340),
+                Instant.ofEpochMilli(1339),
+                Instant.ofEpochMilli(1340),
                 ImmutableDistribution.create(
                     0.0,
                     0,
@@ -244,16 +247,16 @@ public class EventMetricTest {
 
   @Test
   public void testReset_resetsValueAndStartTimestamp() {
-    metric.recordMultiple(3.0, 1, new Instant(1336), ImmutableList.of("foo"));
-    metric.recordMultiple(5.0, 1, new Instant(1337), ImmutableList.of("moo"));
+    metric.recordMultiple(3.0, 1, Instant.ofEpochMilli(1336), ImmutableList.of("foo"));
+    metric.recordMultiple(5.0, 1, Instant.ofEpochMilli(1337), ImmutableList.of("moo"));
 
-    assertThat(metric.getTimestampedValues(new Instant(1338)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("foo"),
-                new Instant(1336),
-                new Instant(1338),
+                Instant.ofEpochMilli(1336),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     3.0,
                     0.0,
@@ -266,8 +269,8 @@ public class EventMetricTest {
             MetricPoint.create(
                 metric,
                 ImmutableList.of("moo"),
-                new Instant(1337),
-                new Instant(1338),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1338),
                 ImmutableDistribution.create(
                     5.0,
                     0,
@@ -278,15 +281,15 @@ public class EventMetricTest {
                         .build(),
                     distributionFitter)));
 
-    metric.reset(new Instant(1339), ImmutableList.of("foo"));
+    metric.reset(Instant.ofEpochMilli(1339), ImmutableList.of("foo"));
 
-    assertThat(metric.getTimestampedValues(new Instant(1340)))
+    assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1340)))
         .containsExactly(
             MetricPoint.create(
                 metric,
                 ImmutableList.of("foo"),
-                new Instant(1339),
-                new Instant(1340),
+                Instant.ofEpochMilli(1339),
+                Instant.ofEpochMilli(1340),
                 ImmutableDistribution.create(
                     0.0,
                     0.0,
@@ -299,8 +302,8 @@ public class EventMetricTest {
             MetricPoint.create(
                 metric,
                 ImmutableList.of("moo"),
-                new Instant(1337),
-                new Instant(1340),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1340),
                 ImmutableDistribution.create(
                     5.0,
                     0,

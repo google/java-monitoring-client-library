@@ -52,8 +52,8 @@ import com.google.monitoring.metrics.MetricSchema.Kind;
 import com.google.monitoring.metrics.MutableDistribution;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
-import org.joda.time.Instant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,20 +61,32 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-/** Unit tests for {@link StackdriverWriter}. */
+/**
+ * Unit tests for {@link StackdriverWriter}.
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class StackdriverWriterTest {
 
-  @Mock private Monitoring client;
-  @Mock private Monitoring.Projects projects;
-  @Mock private Monitoring.Projects.MetricDescriptors metricDescriptors;
-  @Mock private Monitoring.Projects.MetricDescriptors.Get metricDescriptorGet;
-  @Mock private Monitoring.Projects.TimeSeries timeSeries;
-  @Mock private Monitoring.Projects.MetricDescriptors.Create metricDescriptorCreate;
-  @Mock private Monitoring.Projects.TimeSeries.Create timeSeriesCreate;
-  @Mock private Metric<Long> metric;
-  @Mock private Metric<Boolean> boolMetric;
-  @Mock private Metric<Distribution> distributionMetric;
+  @Mock
+  private Monitoring client;
+  @Mock
+  private Monitoring.Projects projects;
+  @Mock
+  private Monitoring.Projects.MetricDescriptors metricDescriptors;
+  @Mock
+  private Monitoring.Projects.MetricDescriptors.Get metricDescriptorGet;
+  @Mock
+  private Monitoring.Projects.TimeSeries timeSeries;
+  @Mock
+  private Monitoring.Projects.MetricDescriptors.Create metricDescriptorCreate;
+  @Mock
+  private Monitoring.Projects.TimeSeries.Create timeSeriesCreate;
+  @Mock
+  private Metric<Long> metric;
+  @Mock
+  private Metric<Boolean> boolMetric;
+  @Mock
+  private Metric<Distribution> distributionMetric;
   private static final String PROJECT = "PROJECT";
   private static final int MAX_QPS = 10;
   private static final int MAX_POINTS_PER_REQUEST = 10;
@@ -96,7 +108,8 @@ public class StackdriverWriterTest {
     // thenReturn() methods.
     MetricPoint<Long> longPoint =
         MetricPoint.create(
-            metric, ImmutableList.of("value1"), new Instant(1337), new Instant(1338), 5L);
+            metric, ImmutableList.of("value1"), Instant.ofEpochMilli(1337),
+            Instant.ofEpochMilli(1338), 5L);
     when(metric.getTimestampedValues()).thenReturn(ImmutableList.of(longPoint));
 
     when(boolMetric.getValueClass()).thenReturn(Boolean.class);
@@ -111,7 +124,7 @@ public class StackdriverWriterTest {
     // Store in an intermediate value, because Mockito hates when mocks are evaluated inside of
     // thenReturn() methods.
     MetricPoint<Boolean> boolPoint =
-        MetricPoint.create(boolMetric, ImmutableList.of("foo"), new Instant(1337), true);
+        MetricPoint.create(boolMetric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), true);
     when(boolMetric.getTimestampedValues()).thenReturn(ImmutableList.of(boolPoint));
 
     when(distributionMetric.getMetricSchema())
@@ -143,7 +156,6 @@ public class StackdriverWriterTest {
         spy(
             new StackdriverWriter(
                 client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST));
-
 
     for (int i = 0; i < MAX_POINTS_PER_REQUEST; i++) {
       for (MetricPoint<?> point : metric.getTimestampedValues()) {
@@ -204,10 +216,10 @@ public class StackdriverWriterTest {
     writer.registerMetric(metric);
 
     verify(
-            client
-                .projects()
-                .metricDescriptors()
-                .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
+        client
+            .projects()
+            .metricDescriptors()
+            .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
         .execute();
   }
 
@@ -220,10 +232,10 @@ public class StackdriverWriterTest {
     writer.registerMetric(metric);
 
     verify(
-            client
-                .projects()
-                .metricDescriptors()
-                .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
+        client
+            .projects()
+            .metricDescriptors()
+            .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
         .execute();
   }
 
@@ -284,7 +296,7 @@ public class StackdriverWriterTest {
 
     TimeSeries timeSeries =
         writer.getEncodedTimeSeries(
-            MetricPoint.create(metric, ImmutableList.of("foo"), new Instant(1337), 10L));
+            MetricPoint.create(metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), 10L));
 
     assertThat(timeSeries.getMetric().getLabels()).isEmpty();
   }
@@ -334,7 +346,8 @@ public class StackdriverWriterTest {
         new StackdriverWriter(client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST);
     MetricPoint<Long> nativePoint =
         MetricPoint.create(
-            metric, ImmutableList.of("foo"), new Instant(1337), new Instant(1337), 10L);
+            metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), Instant.ofEpochMilli(1337),
+            10L);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
@@ -355,7 +368,8 @@ public class StackdriverWriterTest {
         new StackdriverWriter(client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST);
     MetricPoint<Long> nativePoint =
         MetricPoint.create(
-            metric, ImmutableList.of("foo"), new Instant(1337), new Instant(1339), 10L);
+            metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), Instant.ofEpochMilli(1339),
+            10L);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
@@ -383,7 +397,7 @@ public class StackdriverWriterTest {
     // Store in an intermediate value, because Mockito hates when mocks are evaluated inside of
     // thenReturn() methods.
     MetricPoint<Long> testPoint =
-        MetricPoint.create(metric, ImmutableList.of("foo"), new Instant(1337), 10L);
+        MetricPoint.create(metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), 10L);
     when(metric.getTimestampedValues()).thenReturn(ImmutableList.of(testPoint));
     // Store in an intermediate value, because Mockito hates when mocks are evaluated inside of
     // thenReturn() methods.
@@ -393,7 +407,8 @@ public class StackdriverWriterTest {
         new StackdriverWriter(client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST);
     MetricPoint<Long> nativePoint =
         MetricPoint.create(
-            metric, ImmutableList.of("foo"), new Instant(1337), new Instant(1337), 10L);
+            metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), Instant.ofEpochMilli(1337),
+            10L);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
@@ -415,7 +430,7 @@ public class StackdriverWriterTest {
     MetricDescriptor boolDescriptor = StackdriverWriter.encodeMetricDescriptor(boolMetric);
     when(metricDescriptorCreate.execute()).thenReturn(boolDescriptor);
     MetricPoint<Boolean> nativePoint =
-        MetricPoint.create(boolMetric, ImmutableList.of("foo"), new Instant(1337), true);
+        MetricPoint.create(boolMetric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), true);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
@@ -442,7 +457,7 @@ public class StackdriverWriterTest {
     distribution.add(0.0, 5L);
     MetricPoint<Distribution> nativePoint =
         MetricPoint.create(
-            distributionMetric, ImmutableList.of("foo"), new Instant(1337), distribution);
+            distributionMetric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), distribution);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
@@ -479,8 +494,7 @@ public class StackdriverWriterTest {
     distribution.add(20.0, 5L);
     MetricPoint<Distribution> nativePoint =
         MetricPoint.create(
-            distributionMetric, ImmutableList.of("foo"), new Instant(1337), distribution);
-
+            distributionMetric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), distribution);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
@@ -519,7 +533,7 @@ public class StackdriverWriterTest {
     distribution.add(20.0, 5L);
     MetricPoint<Distribution> nativePoint =
         MetricPoint.create(
-            distributionMetric, ImmutableList.of("foo"), new Instant(1337), distribution);
+            distributionMetric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), distribution);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
 
