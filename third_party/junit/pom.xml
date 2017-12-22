@@ -18,4 +18,9 @@
   <description>
     Convenient functions backported from JUnit 4.13.
   </description>
+
+  <properties>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+  </properties>
+
 </project>
