@@ -38,6 +38,26 @@ backend-agnostic approach to Java metrics instrumentation.
     Metrics are modeled after [Stackdriver
     Metrics](https://cloud.google.com/monitoring/api/v3/metrics).
 
+## Importing the library
+
+The most recent release is [v1.0.3](https://github.com/google/monitoring-client/releases/tag/v1.0.3).
+
+The Maven group ID is `com.google.monitoring-client`. The artifact ID is
+`metrics` for the main library, and `stackdriver` for the stackdriver backend
+writer. We also provide a `contrib` library that is useful if you want to make test
+assertions on certain metric types with Google's [truth](https://github.com/google/truth)
+library.
+
+To add a dependency on the metrics library using Maven:
+
+```xml
+<dependency>
+  <groupId>com.google.monitoring-client</groupId>
+  <artifactId>metrics</artifactId>
+  <version>1.0.3</version>
+</dependency>
+```
+
 ## Using the library
 
 *   Registering Metrics
