@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.google.monitoring-client</groupId>
   <artifactId>monitoring</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <packaging>pom</packaging>
 
   <name>Monitoring Client Library for Java</name>
@@ -48,7 +46,7 @@
     <developerConnection>scm:git:git@github.com:google/java-monitoring-client-library.git
     </developerConnection>
     <url>https://github.com/google/java-monitoring-client-library</url>
-    <tag>HEAD</tag>
+    <tag>v1.0.2</tag>
   </scm>
 
   <distributionManagement>
