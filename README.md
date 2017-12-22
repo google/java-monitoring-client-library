@@ -40,7 +40,7 @@ backend-agnostic approach to Java metrics instrumentation.
 
 ## Importing the library
 
-The most recent release is [v1.0.3](https://github.com/google/monitoring-client/releases/tag/v1.0.3).
+The most recent release is [v1.0.3](https://github.com/google/java-monitoring-client-library/releases/).
 
 The Maven group ID is `com.google.monitoring-client`. The artifact ID is
 `metrics` for the main library, and `stackdriver` for the stackdriver backend
