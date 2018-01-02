@@ -17,12 +17,12 @@ package com.google.monitoring.metrics;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import org.joda.time.Instant;
-import org.joda.time.Interval;
+import com.google.common.collect.Range;
+import java.time.Instant;
 
 /**
  * Value type class to store a snapshot of a {@link Metric} value for a given label value tuple and
- * time {@link Interval}.
+ * time {@link Range}.
  */
 @AutoValue
 public abstract class MetricPoint<V> implements Comparable<MetricPoint<V>> {
@@ -39,11 +39,11 @@ public abstract class MetricPoint<V> implements Comparable<MetricPoint<V>> {
     MetricsUtils.checkLabelValuesLength(metric, labelValues);
 
     return new AutoValue_MetricPoint<>(
-        metric, labelValues, new Interval(timestamp, timestamp), value);
+        metric, labelValues, Range.openClosed(timestamp, timestamp), value);
   }
 
   /**
-   * Returns a new {@link MetricPoint} representing a value over an {@link Interval} from {@code
+   * Returns a new {@link MetricPoint} representing a value over an {@link Range} from {@code
    * startTime} to {@code endTime}.
    *
    * <p>Callers should insure that the count of {@code labelValues} matches the count of labels for
@@ -59,14 +59,14 @@ public abstract class MetricPoint<V> implements Comparable<MetricPoint<V>> {
     MetricsUtils.checkLabelValuesLength(metric, labelValues);
 
     return new AutoValue_MetricPoint<>(
-        metric, labelValues, new Interval(startTime, endTime), value);
+        metric, labelValues, Range.openClosed(startTime, endTime), value);
   }
 
   public abstract Metric<V> metric();
 
   public abstract ImmutableList<String> labelValues();
 
-  public abstract Interval interval();
+  public abstract Range<Instant> interval();
 
   public abstract V value();
 

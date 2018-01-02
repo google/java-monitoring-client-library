@@ -23,10 +23,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.util.concurrent.Striped;
 import com.google.monitoring.metrics.MetricSchema.Kind;
+import java.time.Instant;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
-import org.joda.time.Instant;
 
 /**
  * A metric which stores {@link Distribution} values. The values are stateful and meant to be

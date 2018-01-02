@@ -20,9 +20,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.MetricSchema.Kind;
+import java.time.Instant;
 import java.util.Map.Entry;
 import javax.annotation.concurrent.ThreadSafe;
-import org.joda.time.Instant;
 
 /**
  * A metric whose value is computed at sample-time.

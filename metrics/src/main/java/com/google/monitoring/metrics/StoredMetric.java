@@ -19,10 +19,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.MetricSchema.Kind;
+import java.time.Instant;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.concurrent.ThreadSafe;
-import org.joda.time.Instant;
 
 /**
  * A metric which is stateful.
