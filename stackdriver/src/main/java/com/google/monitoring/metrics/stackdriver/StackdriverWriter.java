@@ -60,7 +60,6 @@ import java.util.Queue;
 import java.util.logging.Logger;
 import javax.annotation.concurrent.NotThreadSafe;
 
-
 /**
  * Metrics writer for Google Cloud Monitoring V3
  *
@@ -69,7 +68,7 @@ import javax.annotation.concurrent.NotThreadSafe;
  * until {@link #flush()} is called.
  *
  * @see <a href="https://cloud.google.com/monitoring/api/v3/">Introduction to the Stackdriver
- * Monitoring API</a>
+ *     Monitoring API</a>
  */
 // TODO(shikhman): add retry logic
 @NotThreadSafe
@@ -89,6 +88,7 @@ public class StackdriverWriter implements MetricWriter {
                   com.google.monitoring.metrics.LabelDescriptor.create("kind", "Metric Kind"),
                   com.google.monitoring.metrics.LabelDescriptor.create(
                       "valueType", "Metric Value Type")));
+
   private static final String METRIC_DOMAIN = "custom.googleapis.com";
   private static final String LABEL_VALUE_TYPE = "STRING";
   private static final Logger logger = Logger.getLogger(StackdriverWriter.class.getName());
@@ -125,6 +125,7 @@ public class StackdriverWriter implements MetricWriter {
    */
   private final HashMap<com.google.monitoring.metrics.Metric<?>, MetricDescriptor>
       registeredDescriptors = new HashMap<>();
+
   private final String projectResource;
   private final Monitoring monitoringClient;
   private final int maxPointsPerRequest;
@@ -167,8 +168,7 @@ public class StackdriverWriter implements MetricWriter {
   }
 
   @VisibleForTesting
-  static MetricDescriptor encodeMetricDescriptor(
-      com.google.monitoring.metrics.Metric<?> metric) {
+  static MetricDescriptor encodeMetricDescriptor(com.google.monitoring.metrics.Metric<?> metric) {
     return new MetricDescriptor()
         .setType(METRIC_DOMAIN + metric.getMetricSchema().name())
         .setDescription(metric.getMetricSchema().description())
@@ -178,12 +178,9 @@ public class StackdriverWriter implements MetricWriter {
         .setMetricKind(ENCODED_METRIC_KINDS.get(metric.getMetricSchema().kind().name()));
   }
 
-  /**
-   * Encodes and writes a metric point to Stackdriver. The point may be buffered.
-   */
+  /** Encodes and writes a metric point to Stackdriver. The point may be buffered. */
   @Override
-  public <V> void write(com.google.monitoring.metrics.MetricPoint<V> point)
-      throws IOException {
+  public <V> void write(com.google.monitoring.metrics.MetricPoint<V> point) throws IOException {
     checkNotNull(point);
 
     TimeSeries timeSeries = getEncodedTimeSeries(point);
@@ -195,9 +192,7 @@ public class StackdriverWriter implements MetricWriter {
     }
   }
 
-  /**
-   * Flushes all buffered metric points to Stackdriver. This call is blocking.
-   */
+  /** Flushes all buffered metric points to Stackdriver. This call is blocking. */
   @Override
   public void flush() throws IOException {
     checkState(timeSeriesBuffer.size() <= 200, FLUSH_OVERFLOW_ERROR);
@@ -226,8 +221,9 @@ public class StackdriverWriter implements MetricWriter {
    * Registers a metric's {@link MetricDescriptor} with the Monitoring API.
    *
    * @param metric the metric to be registered.
-   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors">Stackdriver
-   * MetricDescriptor API</a>
+   * @see <a
+   *     href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors">Stackdriver
+   *     MetricDescriptor API</a>
    */
   @VisibleForTesting
   MetricDescriptor registerMetric(final com.google.monitoring.metrics.Metric<?> metric)
@@ -335,8 +331,8 @@ public class StackdriverWriter implements MetricWriter {
    * <p>This method will register the underlying {@link com.google.monitoring.metrics.Metric} as a
    * Stackdriver {@link MetricDescriptor}.
    *
-   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/TimeSeries"> Stackdriver
-   * TimeSeries API</a>
+   * @see <a href="https://cloud.google.com/monitoring/api/ref_v3/rest/v3/TimeSeries">Stackdriver
+   *     TimeSeries API</a>
    */
   @VisibleForTesting
   <V> TimeSeries getEncodedTimeSeries(com.google.monitoring.metrics.MetricPoint<V> point)

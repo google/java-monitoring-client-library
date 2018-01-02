@@ -24,17 +24,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Unit tests for {@link StoredMetric}.
- */
+/** Unit tests for {@link StoredMetric}. */
 @RunWith(JUnit4.class)
 public class StoredMetricTest {
 
   @Test
   public void testGetCardinality_reflectsCurrentCardinality() {
     StoredMetric<Boolean> smallMetric =
-        new StoredMetric<>(
-            "/metric", "description", "vdn", ImmutableSet.of(), Boolean.class);
+        new StoredMetric<>("/metric", "description", "vdn", ImmutableSet.of(), Boolean.class);
     assertThat(smallMetric.getCardinality()).isEqualTo(0);
 
     smallMetric.set(true);
@@ -89,16 +86,16 @@ public class StoredMetricTest {
     metric.set(true, ImmutableList.of("test_value1"));
     assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1337)))
         .containsExactly(
-            MetricPoint
-                .create(metric, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), true));
+            MetricPoint.create(
+                metric, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), true));
 
     metric.set(false, ImmutableList.of("test_value1"));
     metric.set(true, ImmutableList.of("test_value2"));
     assertThat(metric.getTimestampedValues(Instant.ofEpochMilli(1338)))
         .containsExactly(
-            MetricPoint
-                .create(metric, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1338), false),
-            MetricPoint
-                .create(metric, ImmutableList.of("test_value2"), Instant.ofEpochMilli(1338), true));
+            MetricPoint.create(
+                metric, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1338), false),
+            MetricPoint.create(
+                metric, ImmutableList.of("test_value2"), Instant.ofEpochMilli(1338), true));
   }
 }

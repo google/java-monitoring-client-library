@@ -24,9 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/**
- * Unit tests for {@link Counter}.
- */
+/** Unit tests for {@link Counter}. */
 @RunWith(JUnit4.class)
 public class CounterTest {
 
@@ -81,14 +79,14 @@ public class CounterTest {
     counter.incrementBy(1, Instant.ofEpochMilli(1337), ImmutableList.of("test_value1"));
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1337)))
         .containsExactly(
-            MetricPoint
-                .create(counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 1L));
+            MetricPoint.create(
+                counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 1L));
 
     counter.increment("test_value1");
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1337)))
         .containsExactly(
-            MetricPoint
-                .create(counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 2L));
+            MetricPoint.create(
+                counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 2L));
   }
 
   @Test
@@ -105,17 +103,17 @@ public class CounterTest {
     counter.incrementBy(1, Instant.ofEpochMilli(1337), ImmutableList.of("test_value1"));
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1337)))
         .containsExactly(
-            MetricPoint
-                .create(counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 1L));
+            MetricPoint.create(
+                counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 1L));
 
     counter.set(-10L, Instant.ofEpochMilli(1337), ImmutableList.of("test_value2"));
     counter.incrementBy(5, Instant.ofEpochMilli(1337), ImmutableList.of("test_value2"));
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1337)))
         .containsExactly(
-            MetricPoint
-                .create(counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 1L),
-            MetricPoint
-                .create(counter, ImmutableList.of("test_value2"), Instant.ofEpochMilli(1337), -5L));
+            MetricPoint.create(
+                counter, ImmutableList.of("test_value1"), Instant.ofEpochMilli(1337), 1L),
+            MetricPoint.create(
+                counter, ImmutableList.of("test_value2"), Instant.ofEpochMilli(1337), -5L));
   }
 
   @Test
@@ -147,22 +145,34 @@ public class CounterTest {
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1400)))
         .containsExactly(
             MetricPoint.create(
-                counter, ImmutableList.of("foo"), Instant.ofEpochMilli(1337),
-                Instant.ofEpochMilli(1400), 3L),
+                counter,
+                ImmutableList.of("foo"),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1400),
+                3L),
             MetricPoint.create(
-                counter, ImmutableList.of("moo"), Instant.ofEpochMilli(1338),
-                Instant.ofEpochMilli(1400), 5L));
+                counter,
+                ImmutableList.of("moo"),
+                Instant.ofEpochMilli(1338),
+                Instant.ofEpochMilli(1400),
+                5L));
 
     counter.reset(Instant.ofEpochMilli(1339));
 
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1400)))
         .containsExactly(
             MetricPoint.create(
-                counter, ImmutableList.of("foo"), Instant.ofEpochMilli(1339),
-                Instant.ofEpochMilli(1400), 0L),
+                counter,
+                ImmutableList.of("foo"),
+                Instant.ofEpochMilli(1339),
+                Instant.ofEpochMilli(1400),
+                0L),
             MetricPoint.create(
-                counter, ImmutableList.of("moo"), Instant.ofEpochMilli(1339),
-                Instant.ofEpochMilli(1400), 0L));
+                counter,
+                ImmutableList.of("moo"),
+                Instant.ofEpochMilli(1339),
+                Instant.ofEpochMilli(1400),
+                0L));
   }
 
   @Test
@@ -180,21 +190,33 @@ public class CounterTest {
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1400)))
         .containsExactly(
             MetricPoint.create(
-                counter, ImmutableList.of("foo"), Instant.ofEpochMilli(1337),
-                Instant.ofEpochMilli(1400), 3L),
+                counter,
+                ImmutableList.of("foo"),
+                Instant.ofEpochMilli(1337),
+                Instant.ofEpochMilli(1400),
+                3L),
             MetricPoint.create(
-                counter, ImmutableList.of("moo"), Instant.ofEpochMilli(1338),
-                Instant.ofEpochMilli(1400), 5L));
+                counter,
+                ImmutableList.of("moo"),
+                Instant.ofEpochMilli(1338),
+                Instant.ofEpochMilli(1400),
+                5L));
 
     counter.reset(Instant.ofEpochMilli(1339), ImmutableList.of("foo"));
 
     assertThat(counter.getTimestampedValues(Instant.ofEpochMilli(1400)))
         .containsExactly(
             MetricPoint.create(
-                counter, ImmutableList.of("foo"), Instant.ofEpochMilli(1339),
-                Instant.ofEpochMilli(1400), 0L),
+                counter,
+                ImmutableList.of("foo"),
+                Instant.ofEpochMilli(1339),
+                Instant.ofEpochMilli(1400),
+                0L),
             MetricPoint.create(
-                counter, ImmutableList.of("moo"), Instant.ofEpochMilli(1338),
-                Instant.ofEpochMilli(1400), 5L));
+                counter,
+                ImmutableList.of("moo"),
+                Instant.ofEpochMilli(1338),
+                Instant.ofEpochMilli(1400),
+                5L));
   }
 }

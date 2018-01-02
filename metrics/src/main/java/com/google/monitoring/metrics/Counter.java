@@ -25,10 +25,10 @@ import com.google.common.collect.Ordering;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.Striped;
 import com.google.monitoring.metrics.MetricSchema.Kind;
+import java.time.Instant;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
-import java.time.Instant;
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
@@ -145,7 +145,6 @@ public final class Counter extends AbstractMetric<Long>
 
       timestampedValues.add(
           MetricPoint.create(this, labelValues, startTimestamp, endTimestamp, entry.getValue()));
-
     }
     return timestampedValues.build();
   }

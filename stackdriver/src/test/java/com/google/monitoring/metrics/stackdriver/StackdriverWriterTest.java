@@ -61,32 +61,20 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
-/**
- * Unit tests for {@link StackdriverWriter}.
- */
+/** Unit tests for {@link StackdriverWriter}. */
 @RunWith(MockitoJUnitRunner.class)
 public class StackdriverWriterTest {
 
-  @Mock
-  private Monitoring client;
-  @Mock
-  private Monitoring.Projects projects;
-  @Mock
-  private Monitoring.Projects.MetricDescriptors metricDescriptors;
-  @Mock
-  private Monitoring.Projects.MetricDescriptors.Get metricDescriptorGet;
-  @Mock
-  private Monitoring.Projects.TimeSeries timeSeries;
-  @Mock
-  private Monitoring.Projects.MetricDescriptors.Create metricDescriptorCreate;
-  @Mock
-  private Monitoring.Projects.TimeSeries.Create timeSeriesCreate;
-  @Mock
-  private Metric<Long> metric;
-  @Mock
-  private Metric<Boolean> boolMetric;
-  @Mock
-  private Metric<Distribution> distributionMetric;
+  @Mock private Monitoring client;
+  @Mock private Monitoring.Projects projects;
+  @Mock private Monitoring.Projects.MetricDescriptors metricDescriptors;
+  @Mock private Monitoring.Projects.MetricDescriptors.Get metricDescriptorGet;
+  @Mock private Monitoring.Projects.TimeSeries timeSeries;
+  @Mock private Monitoring.Projects.MetricDescriptors.Create metricDescriptorCreate;
+  @Mock private Monitoring.Projects.TimeSeries.Create timeSeriesCreate;
+  @Mock private Metric<Long> metric;
+  @Mock private Metric<Boolean> boolMetric;
+  @Mock private Metric<Distribution> distributionMetric;
   private static final String PROJECT = "PROJECT";
   private static final int MAX_QPS = 10;
   private static final int MAX_POINTS_PER_REQUEST = 10;
@@ -108,8 +96,11 @@ public class StackdriverWriterTest {
     // thenReturn() methods.
     MetricPoint<Long> longPoint =
         MetricPoint.create(
-            metric, ImmutableList.of("value1"), Instant.ofEpochMilli(1337),
-            Instant.ofEpochMilli(1338), 5L);
+            metric,
+            ImmutableList.of("value1"),
+            Instant.ofEpochMilli(1337),
+            Instant.ofEpochMilli(1338),
+            5L);
     when(metric.getTimestampedValues()).thenReturn(ImmutableList.of(longPoint));
 
     when(boolMetric.getValueClass()).thenReturn(Boolean.class);
@@ -216,10 +207,10 @@ public class StackdriverWriterTest {
     writer.registerMetric(metric);
 
     verify(
-        client
-            .projects()
-            .metricDescriptors()
-            .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
+            client
+                .projects()
+                .metricDescriptors()
+                .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
         .execute();
   }
 
@@ -232,10 +223,10 @@ public class StackdriverWriterTest {
     writer.registerMetric(metric);
 
     verify(
-        client
-            .projects()
-            .metricDescriptors()
-            .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
+            client
+                .projects()
+                .metricDescriptors()
+                .create(PROJECT, StackdriverWriter.encodeMetricDescriptor(metric)))
         .execute();
   }
 
@@ -346,7 +337,10 @@ public class StackdriverWriterTest {
         new StackdriverWriter(client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST);
     MetricPoint<Long> nativePoint =
         MetricPoint.create(
-            metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), Instant.ofEpochMilli(1337),
+            metric,
+            ImmutableList.of("foo"),
+            Instant.ofEpochMilli(1337),
+            Instant.ofEpochMilli(1337),
             10L);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
@@ -368,7 +362,10 @@ public class StackdriverWriterTest {
         new StackdriverWriter(client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST);
     MetricPoint<Long> nativePoint =
         MetricPoint.create(
-            metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), Instant.ofEpochMilli(1339),
+            metric,
+            ImmutableList.of("foo"),
+            Instant.ofEpochMilli(1337),
+            Instant.ofEpochMilli(1339),
             10L);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
@@ -407,7 +404,10 @@ public class StackdriverWriterTest {
         new StackdriverWriter(client, PROJECT, MONITORED_RESOURCE, MAX_QPS, MAX_POINTS_PER_REQUEST);
     MetricPoint<Long> nativePoint =
         MetricPoint.create(
-            metric, ImmutableList.of("foo"), Instant.ofEpochMilli(1337), Instant.ofEpochMilli(1337),
+            metric,
+            ImmutableList.of("foo"),
+            Instant.ofEpochMilli(1337),
+            Instant.ofEpochMilli(1337),
             10L);
 
     TimeSeries timeSeries = writer.getEncodedTimeSeries(nativePoint);
