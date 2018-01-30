@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  */
 class MetricExporter extends AbstractExecutionThreadService {
 
-  private static final Logger logger = Logger.getLogger(MetricReporter.class.getName());
+  private static final Logger logger = Logger.getLogger(MetricExporter.class.getName());
 
   private final BlockingQueue<Optional<ImmutableList<MetricPoint<?>>>> writeQueue;
   private final MetricWriter writer;
