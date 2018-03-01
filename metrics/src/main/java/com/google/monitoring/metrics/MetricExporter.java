@@ -54,9 +54,9 @@ class MetricExporter extends AbstractExecutionThreadService {
     logger.info("Started up MetricExporter");
     while (isRunning()) {
       Optional<ImmutableList<MetricPoint<?>>> batch = writeQueue.take();
-      logger.info("Got a batch of points from the writeQueue");
+      logger.fine("Got a batch of points from the writeQueue");
       if (batch.isPresent()) {
-        logger.info("Batch contains data, writing to MetricWriter");
+        logger.fine("Batch contains data, writing to MetricWriter");
         try {
           for (MetricPoint<?> point : batch.get()) {
             writer.write(point);

@@ -84,7 +84,7 @@ public class MetricReporter extends AbstractScheduledService {
 
   @Override
   protected void runOneIteration() {
-    logger.info("Running background metric push");
+    logger.fine("Running background metric push");
 
     if (metricExporter.state() == State.FAILED) {
       startMetricExporter();
