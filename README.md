@@ -40,7 +40,7 @@ backend-agnostic approach to Java metrics instrumentation.
 
 ## Importing the library
 
-The most recent release is [v1.0.3](https://github.com/google/java-monitoring-client-library/releases/).
+The most recent release is [v1.0.5](https://github.com/google/java-monitoring-client-library/releases/).
 
 The Maven group ID is `com.google.monitoring-client`. The artifact ID is
 `metrics` for the main library, and `stackdriver` for the stackdriver backend
@@ -54,7 +54,7 @@ To add a dependency on the metrics library using Maven:
 <dependency>
   <groupId>com.google.monitoring-client</groupId>
   <artifactId>metrics</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
