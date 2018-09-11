@@ -64,7 +64,7 @@ class MetricExporter extends AbstractExecutionThreadService {
           writer.flush();
         } catch (IOException exception) {
           logger.log(
-              Level.SEVERE, "Threw an exception while writing or flushing metrics", exception);
+              Level.WARNING, "Threw an exception while writing or flushing metrics", exception);
         }
       } else {
         logger.info("Received a poison pill, stopping now");
