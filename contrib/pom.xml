@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>0.37</version>
+      <version>0.44</version>
     </dependency>
     <!-- Metrics library -->
     <dependency>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>com.google.truth.extensions</groupId>
       <artifactId>truth-java8-extension</artifactId>
-      <version>0.37</version>
+      <version>0.44</version>
       <scope>test</scope>
     </dependency>
     <!-- JUnit backport -->

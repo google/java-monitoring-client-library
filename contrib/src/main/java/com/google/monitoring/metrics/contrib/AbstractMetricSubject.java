@@ -73,8 +73,11 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
               Joiner.on(':').join(metricPoint.labelValues()),
               getMessageRepresentation(metricPoint.value()));
 
+  private final Metric<T> actual;
+
   protected AbstractMetricSubject(FailureMetadata metadata, Metric<T> actual) {
     super(metadata, checkNotNull(actual));
+    this.actual = actual;
   }
 
   /**
@@ -84,7 +87,7 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
    */
   @Override
   public String actualCustomStringRepresentation() {
-    return actual().getMetricSchema().name();
+    return actual.getMetricSchema().name();
   }
 
   /**
@@ -102,7 +105,7 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
           Joiner.on(':').join(labels),
           "has labeled values",
           Lists.transform(
-              Ordering.<MetricPoint<T>>natural().sortedCopy(actual().getTimestampedValues()),
+              Ordering.<MetricPoint<T>>natural().sortedCopy(actual.getTimestampedValues()),
               metricPointConverter));
     }
     if (!metricPoint.value().equals(value)) {
@@ -130,7 +133,7 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
           Joiner.on(':').join(labels),
           "has labeled values",
           Lists.transform(
-              Ordering.<MetricPoint<T>>natural().sortedCopy(actual().getTimestampedValues()),
+              Ordering.<MetricPoint<T>>natural().sortedCopy(actual.getTimestampedValues()),
               metricPointConverter));
     }
     if (hasDefaultValue(metricPoint)) {
@@ -162,7 +165,7 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
    * has already been made.
    */
   public And<S> hasNoOtherValues() {
-    for (MetricPoint<T> metricPoint : actual().getTimestampedValues()) {
+    for (MetricPoint<T> metricPoint : actual.getTimestampedValues()) {
       if (!expectedNondefaultLabelTuples.contains(metricPoint.labelValues())) {
         if (!hasDefaultValue(metricPoint)) {
           failWithBadResults(
@@ -170,7 +173,7 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
               "no other nondefault values",
               "has labeled values",
               Lists.transform(
-                  Ordering.<MetricPoint<T>>natural().sortedCopy(actual().getTimestampedValues()),
+                  Ordering.<MetricPoint<T>>natural().sortedCopy(actual.getTimestampedValues()),
                   metricPointConverter));
         }
         return andChainer();
@@ -180,10 +183,10 @@ abstract class AbstractMetricSubject<T, S extends AbstractMetricSubject<T, S>>
   }
 
   private @Nullable MetricPoint<T> findMetricPointForLabels(ImmutableList<String> labels) {
-    if (actual().getMetricSchema().labels().size() != labels.size()) {
+    if (actual.getMetricSchema().labels().size() != labels.size()) {
       return null;
     }
-    for (MetricPoint<T> metricPoint : actual().getTimestampedValues()) {
+    for (MetricPoint<T> metricPoint : actual.getTimestampedValues()) {
       if (metricPoint.labelValues().equals(labels)) {
         return metricPoint;
       }

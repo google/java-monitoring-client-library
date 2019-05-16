@@ -58,8 +58,11 @@ public final class DistributionMetricSubject
     return assertAbout(DistributionMetricSubject::new).that(metric);
   }
 
+  private final Metric<Distribution> actual;
+
   private DistributionMetricSubject(FailureMetadata metadata, Metric<Distribution> actual) {
     super(metadata, actual);
+    this.actual = actual;
   }
 
   /**
@@ -111,7 +114,7 @@ public final class DistributionMetricSubject
    */
   public And<DistributionMetricSubject> hasDataSetForLabels(
       ImmutableSet<? extends Number> dataSet, String... labels) {
-    ImmutableList<MetricPoint<Distribution>> metricPoints = actual().getTimestampedValues();
+    ImmutableList<MetricPoint<Distribution>> metricPoints = actual.getTimestampedValues();
     if (metricPoints.isEmpty()) {
       failWithBadResults(
           "has a distribution for labels", Joiner.on(':').join(labels), "has", "no values");
