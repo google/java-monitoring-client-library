@@ -5,7 +5,7 @@
 
   <groupId>com.google.monitoring-client</groupId>
   <artifactId>monitoring</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Monitoring Client Library for Java</name>
@@ -46,7 +46,7 @@
     <developerConnection>scm:git:git@github.com:google/java-monitoring-client-library.git
     </developerConnection>
     <url>https://github.com/google/java-monitoring-client-library</url>
-    <tag>v1.0.7</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
