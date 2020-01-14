@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
@@ -29,14 +29,14 @@ public class FibonacciFitterTest {
   @Test
   public void testCreate_maxBucketSizeNegative_throwsException() {
     IllegalArgumentException e =
-        expectThrows(IllegalArgumentException.class, () -> FibonacciFitter.create(-1));
+        assertThrows(IllegalArgumentException.class, () -> FibonacciFitter.create(-1));
     assertThat(e).hasMessageThat().isEqualTo("maxBucketSize must be greater than 0");
   }
 
   @Test
   public void testCreate_maxBucketSizeZero_throwsException() {
     IllegalArgumentException e =
-        expectThrows(IllegalArgumentException.class, () -> FibonacciFitter.create(0));
+        assertThrows(IllegalArgumentException.class, () -> FibonacciFitter.create(0));
     assertThat(e).hasMessageThat().isEqualTo("maxBucketSize must be greater than 0");
   }
 

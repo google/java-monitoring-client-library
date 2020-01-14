@@ -15,8 +15,8 @@
 package com.google.monitoring.metrics.contrib;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
 import static com.google.monitoring.metrics.contrib.DistributionMetricSubject.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.EventMetric;
@@ -54,7 +54,7 @@ public class DistributionMetricSubjectTest {
   @Test
   public void testWrongNumberOfLabels_fails() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class, () -> assertThat(metric).hasAnyValueForLabels("Domestic"));
     assertThat(e)
         .hasMessageThat()
@@ -87,7 +87,7 @@ public class DistributionMetricSubjectTest {
   @Test
   public void testDoesNotHaveValueForLabels_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () -> assertThat(metric).doesNotHaveAnyValueForLabels("Domestic", "Green"));
     assertThat(e)
@@ -100,7 +100,7 @@ public class DistributionMetricSubjectTest {
   @Test
   public void testUnexpectedValue_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () ->
                 assertThat(metric)
@@ -135,7 +135,7 @@ public class DistributionMetricSubjectTest {
   @Test
   public void testUnexpectedDataSet_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () ->
                 assertThat(metric)
@@ -151,7 +151,7 @@ public class DistributionMetricSubjectTest {
   @Test
   public void testNonExistentLabels_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () ->
                 assertThat(metric)
@@ -175,7 +175,7 @@ public class DistributionMetricSubjectTest {
                 LABEL_DESCRIPTORS,
                 EventMetric.DEFAULT_FITTER);
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () ->
                 assertThat(emptyMetric)

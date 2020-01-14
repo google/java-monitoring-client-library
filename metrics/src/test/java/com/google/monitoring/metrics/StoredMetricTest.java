@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -64,7 +64,7 @@ public class StoredMetricTest {
             Boolean.class);
 
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> dimensionalMetric.set(true, "foo"));
+        assertThrows(IllegalArgumentException.class, () -> dimensionalMetric.set(true, "foo"));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
