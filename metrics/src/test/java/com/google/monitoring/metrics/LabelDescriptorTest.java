@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class LabelDescriptorTest {
   @Test
   public void testCreate_invalidLabel_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> LabelDescriptor.create("@", "description"));
     assertThat(thrown).hasMessageThat().contains("Label name must match the regex");
   }
@@ -36,7 +36,7 @@ public class LabelDescriptorTest {
   @Test
   public void testCreate_blankNameField_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> LabelDescriptor.create("", "description"));
     assertThat(thrown).hasMessageThat().contains("Name must not be empty");
   }
@@ -44,7 +44,7 @@ public class LabelDescriptorTest {
   @Test
   public void testCreate_blankDescriptionField_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> LabelDescriptor.create("name", ""));
+        assertThrows(IllegalArgumentException.class, () -> LabelDescriptor.create("name", ""));
     assertThat(thrown).hasMessageThat().contains("Description must not be empty");
   }
 }

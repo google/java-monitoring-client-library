@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.MetricSchema.Kind;
@@ -30,7 +30,7 @@ public class MetricSchemaTest {
   @Test
   public void testCreate_blankNameField_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class,
             () ->
                 MetricSchema.create(
@@ -45,7 +45,7 @@ public class MetricSchemaTest {
   @Test
   public void testCreate_blankDescriptionField_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class,
             () ->
                 MetricSchema.create(
@@ -60,7 +60,7 @@ public class MetricSchemaTest {
   @Test
   public void testCreate_blankValueDisplayNameField_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class,
             () ->
                 MetricSchema.create(
@@ -71,7 +71,7 @@ public class MetricSchemaTest {
   @Test
   public void testCreate_nakedNames_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class,
             () ->
                 MetricSchema.create(

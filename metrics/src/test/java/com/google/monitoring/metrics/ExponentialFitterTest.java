@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,35 +27,35 @@ public class ExponentialFitterTest {
   @Test
   public void testCreateExponentialFitter_zeroNumIntervals_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(0, 3.0, 1.0));
+        assertThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(0, 3.0, 1.0));
     assertThat(thrown).hasMessageThat().contains("numFiniteIntervals must be greater than 0");
   }
 
   @Test
   public void testCreateExponentialFitter_negativeNumIntervals_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(-1, 3.0, 1.0));
+        assertThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(-1, 3.0, 1.0));
     assertThat(thrown).hasMessageThat().contains("numFiniteIntervals must be greater than 0");
   }
 
   @Test
   public void testCreateExponentialFitter_invalidBase_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(3, 0.5, 1.0));
+        assertThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(3, 0.5, 1.0));
     assertThat(thrown).hasMessageThat().contains("base must be greater than 1");
   }
 
   @Test
   public void testCreateExponentialFitter_zeroScale_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(3, 2.0, 0.0));
+        assertThrows(IllegalArgumentException.class, () -> ExponentialFitter.create(3, 2.0, 0.0));
     assertThat(thrown).hasMessageThat().contains("scale must not be 0");
   }
 
   @Test
   public void testCreateExponentialFitter_NanScale_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> ExponentialFitter.create(3, 2.0, Double.NaN));
     assertThat(thrown).hasMessageThat().contains("value must be finite, not NaN, and not -0.0");
   }

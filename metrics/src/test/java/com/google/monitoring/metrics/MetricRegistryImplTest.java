@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.ImmutableList;
@@ -69,7 +69,7 @@ public class MetricRegistryImplTest {
                 () -> ImmutableMap.of(ImmutableList.of("foo"), 1L),
                 Long.class);
 
-    assertThat(testGauge.getValueClass()).isSameAs(Long.class);
+    assertThat(testGauge.getValueClass()).isSameInstanceAs(Long.class);
     assertThat(testGauge.getMetricSchema())
         .isEqualTo(
             MetricSchema.create(
@@ -90,7 +90,7 @@ public class MetricRegistryImplTest {
                 "test_valuedisplayname",
                 ImmutableSet.of(label));
 
-    assertThat(testCounter.getValueClass()).isSameAs(Long.class);
+    assertThat(testCounter.getValueClass()).isSameInstanceAs(Long.class);
     assertThat(testCounter.getMetricSchema())
         .isEqualTo(
             MetricSchema.create(
@@ -112,7 +112,7 @@ public class MetricRegistryImplTest {
                 ImmutableSet.of(label),
                 Boolean.class);
 
-    assertThat(testMetric.getValueClass()).isSameAs(Boolean.class);
+    assertThat(testMetric.getValueClass()).isSameInstanceAs(Boolean.class);
     assertThat(testMetric.getMetricSchema())
         .isEqualTo(
             MetricSchema.create(
@@ -135,7 +135,7 @@ public class MetricRegistryImplTest {
                 ImmutableSet.of(label),
                 fitter);
 
-    assertThat(testMetric.getValueClass()).isSameAs(Distribution.class);
+    assertThat(testMetric.getValueClass()).isSameInstanceAs(Distribution.class);
     assertThat(testMetric.getMetricSchema())
         .isEqualTo(
             MetricSchema.create(
@@ -159,7 +159,7 @@ public class MetricRegistryImplTest {
     MetricRegistryImpl.getDefault().registerMetric("/test/metric", testMetric);
 
     IllegalStateException thrown =
-        expectThrows(
+        assertThrows(
             IllegalStateException.class,
             () -> MetricRegistryImpl.getDefault().registerMetric("/test/metric", testMetric));
     assertThat(thrown).hasMessageThat().contains("Duplicate metric of same name");

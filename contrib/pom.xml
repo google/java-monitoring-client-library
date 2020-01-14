@@ -39,11 +39,11 @@
       <version>0.44</version>
       <scope>test</scope>
     </dependency>
-    <!-- JUnit backport -->
+    <!-- https://mvnrepository.com/artifact/junit/junit -->
     <dependency>
-      <groupId>com.google.monitoring-client</groupId>
+      <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>1.0.7-SNAPSHOT</version>
+      <version>4.13</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

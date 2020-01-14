@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
@@ -29,7 +29,7 @@ public class CustomFitterTest {
   @Test
   public void testCreateCustomFitter_emptyBounds_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> CustomFitter.create(ImmutableSet.<Double>of()));
     assertThat(thrown).hasMessageThat().contains("boundaries must not be empty");
   }
@@ -37,7 +37,7 @@ public class CustomFitterTest {
   @Test
   public void testCreateCustomFitter_outOfOrderBounds_throwsException() throws Exception {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> CustomFitter.create(ImmutableSet.of(2.0, 0.0)));
     assertThat(thrown).hasMessageThat().contains("boundaries must be sorted");
   }

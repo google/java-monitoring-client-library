@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableRangeMap;
@@ -65,7 +65,7 @@ public class EventMetricTest {
   @Test
   public void testIncrementBy_wrongLabelValueCount_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> metric.record(1.0, "blah", "blah"));
+        assertThrows(IllegalArgumentException.class, () -> metric.record(1.0, "blah", "blah"));
     assertThat(thrown)
         .hasMessageThat()
         .contains(

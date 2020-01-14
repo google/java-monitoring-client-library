@@ -15,8 +15,8 @@
 package com.google.monitoring.metrics.contrib;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
 import static com.google.monitoring.metrics.contrib.LongMetricSubject.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.IncrementableMetric;
@@ -53,7 +53,7 @@ public class LongMetricSubjectTest {
   @Test
   public void testWrongNumberOfLabels_fails() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class, () -> assertThat(metric).hasValueForLabels(1, "Domestic"));
     assertThat(e)
         .hasMessageThat()
@@ -95,7 +95,7 @@ public class LongMetricSubjectTest {
   @Test
   public void testDoesNotHaveValueForLabels_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () -> assertThat(metric).doesNotHaveAnyValueForLabels("Domestic", "Green"));
     assertThat(e)
@@ -108,7 +108,7 @@ public class LongMetricSubjectTest {
   @Test
   public void testWrongValue_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () -> assertThat(metric).hasValueForLabels(2, "Domestic", "Green"));
     assertThat(e)
@@ -121,7 +121,7 @@ public class LongMetricSubjectTest {
   @Test
   public void testUnexpectedValue_failure() {
     AssertionError e =
-        expectThrows(
+        assertThrows(
             AssertionError.class,
             () ->
                 assertThat(metric)

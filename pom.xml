@@ -64,7 +64,6 @@
     <module>metrics</module>
     <module>contrib</module>
     <module>stackdriver</module>
-    <module>third_party/junit</module>
   </modules>
 
   <build>

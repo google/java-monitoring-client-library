@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -57,7 +57,7 @@ public class CounterTest {
                 LabelDescriptor.create("label1", "bar"), LabelDescriptor.create("label2", "bar")));
 
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> counter.increment("blah"));
+        assertThrows(IllegalArgumentException.class, () -> counter.increment("blah"));
     assertThat(thrown)
         .hasMessageThat()
         .contains(
@@ -126,7 +126,7 @@ public class CounterTest {
             ImmutableSet.of(LabelDescriptor.create("label1", "bar")));
 
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> counter.incrementBy(-1L, "foo"));
+        assertThrows(IllegalArgumentException.class, () -> counter.incrementBy(-1L, "foo"));
     assertThat(thrown).hasMessageThat().contains("The offset provided must be non-negative");
   }
 

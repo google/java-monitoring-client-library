@@ -15,7 +15,7 @@
 package com.google.monitoring.metrics;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.monitoring.metrics.JUnitBackports.expectThrows;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableRangeMap;
 import com.google.common.collect.ImmutableSet;
@@ -122,7 +122,7 @@ public class MutableDistributionTest {
   @Test
   public void testAdd_negativeZero_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class,
             () -> distribution.add(Double.longBitsToDouble(0x80000000)));
     assertThat(thrown).hasMessageThat().contains("value must be finite, not NaN, and not -0.0");
@@ -131,14 +131,14 @@ public class MutableDistributionTest {
   @Test
   public void testAdd_NaN_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(IllegalArgumentException.class, () -> distribution.add(Double.NaN));
+        assertThrows(IllegalArgumentException.class, () -> distribution.add(Double.NaN));
     assertThat(thrown).hasMessageThat().contains("value must be finite, not NaN, and not -0.0");
   }
 
   @Test
   public void testAdd_positiveInfinity_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> distribution.add(Double.POSITIVE_INFINITY));
     assertThat(thrown).hasMessageThat().contains("value must be finite, not NaN, and not -0.0");
   }
@@ -146,7 +146,7 @@ public class MutableDistributionTest {
   @Test
   public void testAdd_negativeInfinity_throwsException() {
     IllegalArgumentException thrown =
-        expectThrows(
+        assertThrows(
             IllegalArgumentException.class, () -> distribution.add(Double.NEGATIVE_INFINITY));
     assertThat(thrown).hasMessageThat().contains("value must be finite, not NaN, and not -0.0");
   }
