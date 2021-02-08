@@ -23,7 +23,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>24.1.1-jre</version>
+      <version>30.0-jre</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.auto.value/auto-value -->
     <dependency>
