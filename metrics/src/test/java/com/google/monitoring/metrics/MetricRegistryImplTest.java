@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.monitoring.metrics.MetricSchema.Kind;
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -38,6 +39,16 @@ public class MetricRegistryImplTest {
   private final LabelDescriptor label =
       LabelDescriptor.create("test_labelname", "test_labeldescription");
 
+  /**
+   * Add {@code unregisterAllMetrics} before the class
+   * in case metrics not unregistered at the beginning
+   * and cause flaky test
+   */
+  @BeforeClass
+  public static void beforeClassClearMetrics() {
+    MetricRegistryImpl.getDefault().unregisterAllMetrics();
+  }
+  
   @After
   public void clearMetrics() {
     MetricRegistryImpl.getDefault().unregisterAllMetrics();
